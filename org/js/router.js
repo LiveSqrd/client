@@ -3,12 +3,9 @@
 		var AppRouter, initialize;
 		AppRouter = Backbone.Router.extend({
 			routes: {
-				'!notify'			: 'notify'
-				,'!admin'			: 'admin'
-				,'!_=_'				: 'notify'
-				,'!/'				: 'notify'
-				,'!login'			: 'login'
-				,'*actions'			: 'notify' //catch all redirect to login, if logedin --> dashboard 
+				 '!_=_'				: 'index'
+				,'!/'				: 'index'
+				,'*actions'			: 'index' //catch all 
 				
 			},
 			loadCss: function(url, keep) {
@@ -46,18 +43,12 @@
 			pagePermission: function(module, err, query, role, ___, callback) {},
 			onPageStart: function(page, ___) {
 				___.ga('send', 'pageview', page);
-				___.c.save({
-					page: page
-				});
-				___.i.save({
-					page: page
-				});
+				___.c.save({page: page});
+				___.i.save({page: page});
 
 				$('a').removeClass("active");
 				$('a[href="#!' + page + '"]').addClass("active");
 				return ___;
-
-
 			}
 		});
 		initialize = function(options) {
@@ -69,39 +60,20 @@
 			___.view.$el.append('<div id=content></div>');
 			$('#content').hide();
 
-	
-			___.router.on('route:notify', function() {
-					var path = 'notify';
+			___.router.on('route:index', function() {
+					var path = 'index';
 					___ = ___.router.onPageStart(path, ___);
-					require(['views/notify'], function(Page) {
-						___.router.loadCss('/less/notify.css');
-						if(___.view.$('#content #notify').length >0)
-						 	___.view.$('#content #notify').show()
+					require(['views/index'], function(Page) {
+						___.router.loadCss('/less/index.css');
+						if(___.view.$('#content #index').length >0)
+						 	___.view.$('#content #index').show()
 						else{
-							
-							page = ___.vm.create(___.view, 'notify', Page, {___: ___ });
+							page = ___.vm.create(___.view, 'index', Page, {___: ___ });
 							___.view.$('#content').append(page.$el)
 						}
 					});
 					return;
 				});
-
-			___.router.on('route:admin', function(actions) {
-					var path = 'admin';
-					___ = ___.router.onPageStart(path, ___);
-					require(['views/admin'], function(Page) {
-						___.router.loadCss('/less/admin.css');
-						if(___.view.$('#content #admin').length >0)
-						 	___.view.$('#content #admin').show()
-						else{
-							page = ___.vm.create(___.view, 'admin', Page, {___: ___, pid : actions});
-							___.view.$('#content').append(page.$el)
-
-						}
-					});
-					return;
-				});
-			
 			
 			require(['views/topPage'], function(Page) {
 				var page;

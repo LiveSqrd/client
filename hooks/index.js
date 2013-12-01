@@ -1,15 +1,13 @@
 (function(exports){
 
-var http = require('http');
-var hook = {};
+	var http = require('http');
+	var hook = {};
 
-exports.routes = function(app){
+	exports.routes = function(app){
 
 
-return app;
-}
+	return app;
+	}
 
 return exports;
 })(exports)
-
-//exports = hook;
