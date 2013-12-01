@@ -1,0 +1,124 @@
+/* @override https://www.haystack.im/css/style.css */
+
+@import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900);
+
+h1,h2,h3,h4,h5,a,small{
+	font-family: 'Lato', sans-serif;
+}
+
+
+#login-header{
+	background: #f9f9f9 url("../img/hay.png") no-repeat fixed right bottom;
+	background-size: 50%;
+}
+
+#login-header header{
+	width: 100%;	
+	float: left;
+	margin-top: 50px;
+}
+
+#login-form{
+	margin-top: 300px;
+	margin: 0 auto;
+	width: 340px;
+	
+}
+#login-form form{
+	margin: 0 auto;
+	width: 300px;
+}
+
+#login-form small{
+	font-size: 14px;
+	display: block;
+	margin-bottom: 20px;
+	text-align: center;
+	
+}
+
+#logo{
+	width: 340px;
+	margin: 0 auto;
+	height: 80px;
+}
+
+#logo h1{
+	font-family: 'Lato', sans-serif;
+	font-weight: 100;
+	letter-spacing: 3px;
+	color: #f8971c;
+	font-style: normal;
+	text-decoration: none;
+	float: left;
+	font-size: 50px;
+	line-height: 58px;
+	text-shadow: #ed8b50 0 1px 0;
+}
+
+
+
+#sub{
+	width: 340px;
+	margin: 0 auto;
+	height: 80px;
+}
+
+#logo h5{
+	font-family: 'Lato', sans-serif;
+	font-weight: 100;
+	letter-spacing: 3px;
+	color: #f8971c;
+	font-style: normal;
+	text-decoration: none;
+	float: left;
+	font-size: 50px;
+	line-height: 58px;
+}
+
+
+#sub h2, #sub h3, #sub h4{
+	font-family: 'Lato', sans-serif;
+	float: left;
+	font-size: 20px;
+	line-height: 36px;
+	margin: 0px;
+	margin-top: -20px;
+}
+
+#sub h2{
+	margin-left: 165px;
+	font-weight: 100;
+	color: #cccece;
+	margin-right: 3px;
+}
+
+#sub h3{
+	color: #d2d4d4;
+}
+
+#sub h4{
+	color: #b0b2b2;
+}
+
+
+
+#login-info{
+	background: #f8971c url("../img/back.jpg") no-repeat center center fixed; 
+	
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#login-info p{
+	background: #fff url("../img/logo+sources.png") no-repeat center 200px; 	
+	width: 350px;
+	margin: 0 auto;
+	padding: 20px;
+	margin-top: 50px;	
+	color: #646464;
+	font: 20px/28px 'Lato', sans-serif;
+	font-weight: 200;
+}

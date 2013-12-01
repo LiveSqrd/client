@@ -1,0 +1,12 @@
+<article id="<%= _id %>" class="container">
+	<p><img src="<%= body.image %>" class="logo"/></p>
+	<h2><%= body.text %></h2>
+</article>
+<section class="admin">
+	<label for="image" >Image</label> <input class="image" name="image" type="text" value="<%= body.image %>">
+	<label for="text" >Text</label> <input class="text" name="text" type="text" value="<%= body.text %>">
+	<button class="show-hide">Show</button>
+	<button class="preview">Preview</button>
+	<button class="refresh">Refresh</button>
+	<button class="go">Go!</button>
+</section>
