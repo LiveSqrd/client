@@ -1,5 +1,5 @@
 (function() {
-	define(['require', 'jquery', 'underscore', 'backbone'], function(require, $, _, Backbone) {
+	define(['require', 'jquery', 'underscore', 'backbone','conf','views/appView', 'vm', 'ga'], function(require, $, _, Backbone,Conf, AppView, Vm, _ga) {
 		var AppRouter, initialize;
 		AppRouter = Backbone.Router.extend({
 			routes: {
@@ -52,12 +52,15 @@
 			}
 		});
 		initialize = function(options) {
-
-			var ___;
-			___ = options.___;
+			console.log("rounter",(new Date()).getTime() ,(new Date()).getTime() -  window.startTime)
+			var ___ = options.___;
+     		___.ga = _ga.Apply();
+     		___.view = Vm.create({}, 'AppView', AppView);
+            ___.vm = Vm;
 			___.route = this;
 			___.router = new AppRouter(options);
 			___.view.$el.append('<div id=content></div>');
+			$('#___spin').hide();
 			$('#content').hide();
 
 			___.router.on('route:index', function() {

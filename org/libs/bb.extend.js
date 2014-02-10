@@ -11,7 +11,7 @@
  * MIT Licensed
  */
 
-define(['underscore','backbone','bsend'],function(_,Backbone,Bsend){
+define(['underscore','backbone','bsend','conf'],function(_,Backbone,Bsend,Conf){
 /*!
  * Version
  */
@@ -24,39 +24,7 @@ var methodMap = {
     'delete': 'DELETE',
     'read':   'GET'
   };
-/**
- * # .ioBind(event, callback, [context])
- *
- * Bind and handle trigger of socket.io events for models.
- *
- * ### Guidelines
- *
- * Do NOT bind to reserved backbone events, such as `change`, `remove`, and `add`.
- * Proxy these events using different event tags such as `update`, `delete`, and `create`.
- *
- * The socket.io socket must either exist at `window.socket`, `Backbone.socket`, or
- * `this.socket` or it must be passed as the second argument.
- *
- * ### Example
- *
- * * Model definition has url: `my_model`
- * * Model instance has id: `abc123`
- *
- * #### Create a new bind (client-side):
- *
- *     model.ioBind('update', window.io, this.updateView, this);
- *
- * #### Send socket.io message (server-side)
- *
- *     socket.emit( 'my_model/abc123:update', { title: 'My New Title' } );
- *
- * @name ioBind
- * @param {String} eventName
- * @param {Object} io from active socket.io connection (optional)
- * @param {Function} callback
- * @param {Object} context (optional) object to interpret as this on callback
- * @api public
- */
+
 
 Backbone.Model.prototype.ioBind = function (eventName, io, callback, context) {
   var ioEvents = this._ioEvents || (this._ioEvents = {})
@@ -72,8 +40,8 @@ Backbone.Model.prototype.ioBind = function (eventName, io, callback, context) {
     global: globalName,
     cbLocal: callback,
     cbGlobal: function (data) {
-
       var msg = (data.length > 0) ? Bsend.jd(data) :'';
+      msg = Conf.decode ? msg : data;
       self.trigger(eventName, msg);
 
     }
@@ -88,22 +56,6 @@ Backbone.Model.prototype.ioBind = function (eventName, io, callback, context) {
   }
   return this;
 };
-
-/**
- * # .ioUnbind(event, [callback])
- *
- * Unbind model triggers and stop listening for server events for a specific
- * event and optional callback.
- *
- * The socket.io socket must either exist at `window.socket`, `Backbone.socket`,
- * or `this.socket` or it must be passed as the second argument.
- *
- * @name ioUnbind
- * @param {String} eventName
- * @param {Object} io from active socket.io connection
- * @param {Function} callback (optional) If not provided will remove all callbacks for eventname.
- * @api public
- */
 
 Backbone.Model.prototype.ioUnbind = function (eventName, io, callback) {
   var ioEvents = this._ioEvents || (this._ioEvents = {})
@@ -135,18 +87,6 @@ Backbone.Model.prototype.ioUnbind = function (eventName, io, callback) {
   return this;
 };
 
-/**
- * # .ioUnbindAll()
- *
- * Unbind all callbacks and server listening events for the given model.
- *
- * The socket.io socket must either exist at `window.socket`, `Backbone.socket`,
- * or `this.socket` or it must be passed as the only argument.
- *
- * @name ioUnbindAll
- * @param {Object} io from active socket.io connection
- * @api public
- */
 
 Backbone.Model.prototype.ioUnbindAll = function (io) {
   var ioEvents = this._ioEvents || (this._ioEvents = {});
@@ -170,41 +110,6 @@ Backbone.Model.prototype.ioUnbindAll = function (io) {
 
 Backbone.Collection.prototype.ioBindVersion = '0.4.3';
 
-/**
- * # ioBind
- *
- * Bind and handle trigger of socket.io event for collections.
- *
- * ### Guidelines
- *
- * Do NOT bind to reserved backbone events, such as `change`, `remove`, and `add`.
- *
- * Proxy these events using different event tags such as `update`, `delete`, and `create`.
- *
- * The socket.io socket must either exist at `window.socket`, `Backbone.socket`,
- * or `this.socket` or it must be passed as the second argument.
- *
- * ### Example
- *
- * * Model definition has url: `my_model`
- * * Model instance has id: `abc123`
- *
- * #### Create a new bind (client-side):
- *
- *     model.ioBind('update', window.io, this.updateView, this);
- *
- * #### Send socket.io message (server-side)
- *
- *     socket.emit( 'my_model/abc123:update', { title: 'My New Title' } );
- *
- * @name ioBind
- * @param {String} eventName
- * @param {Object} io from active socket.io connection
- * @param {Function} callback
- * @param {Object} context (optional): Object to interpret as this on callback
- * @api public
- */
-
 Backbone.Collection.prototype.ioBind = function (eventName, io, callback, context) {
   var ioEvents = this._ioEvents || (this._ioEvents = {})
     , globalName = this.url + ':' + eventName
@@ -220,6 +125,8 @@ Backbone.Collection.prototype.ioBind = function (eventName, io, callback, contex
     cbLocal: callback,
     cbGlobal: function (data) {
       var msg = (data.length > 0) ? Bsend.jd(data) :'';
+      msg = Conf.decode ? msg : data;
+
       self.trigger(eventName, msg);
     }
   };
@@ -232,23 +139,6 @@ Backbone.Collection.prototype.ioBind = function (eventName, io, callback, contex
   }
   return this;
 };
-
-/**
- * # ioUnbind
- *
- * Unbind model triggers and stop listening for server events for a specific event
- * and optional callback.
- *
- * The socket.io socket must either exist at `window.socket`, `Backbone.socket`,
- * or `this.socket` or it must be passed as the second argument.
- *
- * @name ioUnbind
- * @param {String} eventName
- * @param {Object} io from active socket.io connection
- * @param {Function} callback (optional) If not provided will remove all callbacks for `eventName`
- * @api public
- */
-
 
 Backbone.Collection.prototype.ioUnbind = function (eventName, io, callback) {
   var ioEvents = this._ioEvents || (this._ioEvents = {})
@@ -279,18 +169,6 @@ Backbone.Collection.prototype.ioUnbind = function (eventName, io, callback) {
   return this;
 };
 
-/**
- * # ioUnbindAll
- *
- * Unbind all callbacks and server listening events for the given model.
- *
- * The socket.io socket must either exist at `window.socket`, `Backbone.socket`,
- * or `this.socket` or it must be passed as the only argument.
- *
- * @name ioUnbindAll
- * @param {Object} io from active socket.io connection
- * @api public
- */
 
 Backbone.Collection.prototype.ioUnbindAll = function (io) {
   var ioEvents = this._ioEvents || (this._ioEvents = {});
@@ -301,31 +179,6 @@ Backbone.Collection.prototype.ioUnbindAll = function (io) {
   return this;
 };
 
-
-
-
-/**
- * # Backbone.sync
- *
- * Replaces default Backbone.sync function with socket.io transport
- *
- * ### Assumptions
- *
- * Currently expects active socket to be located at `window.socket`,
- * `Backbone.socket` or the sync'ed model own socket.
- * See inline comments if you want to change it.
- * ### Server Side
- *
- *     socket.on('todos:create', function (data, fn) {
- *      ...
- *      fn(null, todo);
- *     });
- *     socket.on('todos:read', ... );
- *     socket.on('todos:update', ... );
- *     socket.on('todos:delete', ... );
- *
- * @name sync
- */
 
   Backbone.sync = function(method, model, options) {
     var type = methodMap[method];
@@ -355,6 +208,7 @@ Backbone.Collection.prototype.ioUnbindAll = function (io) {
       ,ajax : false
       ,skip : 0
       ,limit: 0
+      ,select: null
       ,sort :{}
     });
 
@@ -428,9 +282,7 @@ Backbone.Collection.prototype.ioUnbindAll = function (io) {
     };
 
     if(io){
-      //console.log("i ran io ",params.url.split('/')[0]+ ':' + method,options)
-      //console.log({data:Bsend.je(params.data),limit:options.limit,sort:options.sort,skip:options.skip})
-       io.emit( params.url.split('/')[0]+ ':' + method,{data:Bsend.je(params.data),limit:options.limit,sort:options.sort,skip:options.skip} , function (err, resp) {
+       io.emit( params.url.split('/')[0]+ ':' + method,{data:Bsend.je(params.data),limit:options.limit,sort:options.sort,skip:options.skip,select:options.select,decode:Conf.decode} , function (err, resp) {
         if (err) {
           options.error(err);
         } else {
@@ -439,7 +291,6 @@ Backbone.Collection.prototype.ioUnbindAll = function (io) {
         var xhr = io;
       });
     }else{
-    // Make the request, allowing the user to override any Ajax options.
     var xhr = options.xhr = Backbone.ajax(_.extend(params, options));
     }
     model.trigger('request', model, xhr, options);
@@ -447,38 +298,6 @@ Backbone.Collection.prototype.ioUnbindAll = function (io) {
   }
  
 
-
-/*Backbone.sync = function (method, model, options) {
-  var getUrl = function (object) {
-    if (!(object && object.url)) return null;
-    return _.isFunction(object.url) ? object.url() : object.url;
-  };
-  var all = (options.all)? true: false;
-  var cmd = getUrl(model).split('/')
-    , namespace = (cmd[0] !== '') ? cmd[0] : cmd[1]; // if leading slash, ignore
-
-  var params = _.extend({
-    req: namespace + ':' + method
-  }, options);
-  if(_.has(model,'collection') && _.isObject(options.attrs) && !params.data && model)
-  {
-        params.data = options.attrs || {};
-        params.data._id = model.id;
-  }
-  else if (!params.data && model ) {
-    params.data = model.toJSON() || {};
-  }
-  //console.log('Changed', model.changedAttributes())
- /* if (all && !params.data && model ) {
-    params.data = model.toJSON() || {};
-  }else{
-    params.data = options.attr || {};
-  }
-  */
-
-
-
-  // If your socket.io connection exists on a different var, change here:
  
  
 

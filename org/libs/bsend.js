@@ -1,4 +1,4 @@
-define(function(){
+define(['conf'],function(Conf){
 	var self;
 return  self = {
  
@@ -79,10 +79,10 @@ return  self = {
  
 	},
  	je:function(obj){
- 		return self.en(JSON.stringify(obj));
+ 		return (Conf.decode) ? self.en(JSON.stringify(obj)) : obj;
  	},
  	jd:function(string){
- 		return JSON.parse(self.de(string));
+ 		return (Conf.decode) ? JSON.parse(self.de(string)):string;
  	},
 	// private method for UTF-8 encoding
 	_utf8_en : function (string) {
