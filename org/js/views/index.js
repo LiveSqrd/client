@@ -16,7 +16,6 @@
                 var that       = this;
                /* that.items.fetch({
                     success:function(){
-                         that.updateNotify(that.items.first()) 
                     },data:{}
                 })
              */
