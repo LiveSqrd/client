@@ -52,7 +52,6 @@
 			}
 		});
 		initialize = function(options) {
-			console.log("rounter",(new Date()).getTime() ,(new Date()).getTime() -  window.startTime)
 			var ___ = options.___;
      		___.ga = _ga.Apply();
      		___.view = Vm.create({}, 'AppView', AppView);
