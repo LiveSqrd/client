@@ -97,8 +97,6 @@ require(['require','socket', 'jquery', 'underscore', 'backbone', 'i/client/c', '
 											,p: p
 										}
 									}) 
-								},error:function  (err, err2) {
-								 	console.log('error profiles',err,err2)
 								},data: {'_id': clients.first().get('profile')}});
 						}else
 							return getRouter({
@@ -111,12 +109,8 @@ require(['require','socket', 'jquery', 'underscore', 'backbone', 'i/client/c', '
 									,i: instances.first()
 									,p: null
 								}})
-					},error:function  (err, err2) {
-						console.log('error clients',err,err2)
 					},data: {'_id': instances.first().get('client')}});
-			 },error:function  (err, err2) {
-				console.log('error instances',err,err2)
-			},data: {'_id': data.i}});
+			 },data: {'_id': data.i}});
 		};
 	});
 
