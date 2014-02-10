@@ -1,12 +1,11 @@
 (function() {
 	window.startTime = new Date()
-	console.log("start",(new Date()).getTime() ,(new Date()).getTime() -  window.startTime)
 	require.config({
 		baseUrl: '/js/',
 		paths: {
 			socket: '/socket.io/socket.io',
 			bsend: '/libs/bsend',
-			jquery: '/libs/jquery/jquery-1.11.1.min',
+			jquery: '/libs/jquery/jquery-1.11.1',
 			jqueryUi: '/libs/jquery/jquery-ui-1.10.3.custom',
 			jqueryTinySort : '/libs/jquery/jquery.tinysort',
 			underscore: '/libs/backbone/underscore',
@@ -41,7 +40,6 @@
 
 
 require(['require','socket', 'jquery', 'underscore', 'backbone', 'i/client/c', 'i/instance/c', 'i/profile/c', 'bsend', 'modernizr'], function(require,io, $, _, backbone, Clients, Instances, Profiles, Bsend) {
-		console.log("main ",(new Date()).getTime() ,(new Date()).getTime() -  window.startTime)
 		var ready;
 		 var me, so, touch;
 			so = io.connect();
@@ -60,7 +58,6 @@ require(['require','socket', 'jquery', 'underscore', 'backbone', 'i/client/c', '
 			});
 
 		return ready = function(data, so) {
-			console.log("in ready ",(new Date()).getTime() ,(new Date()).getTime() -  window.startTime)
 			window.___ = data.i;
 			window.__l = data.loggedIn.loggedIn;
 			var checkVisablity, clients, instances, profiles;
@@ -78,7 +75,6 @@ require(['require','socket', 'jquery', 'underscore', 'backbone', 'i/client/c', '
 			
 			function getRouter(obj){
 				require(['router'], function(Router) {
-						console.log("go to rounter ",(new Date()).getTime() ,(new Date()).getTime() -  window.startTime)
 						Router.initialize(obj);
 				});
 			}
