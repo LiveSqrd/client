@@ -14,6 +14,7 @@
             },
             render:function(){
                 var that       = this;
+                that.$el.html(this.home({}))
                /* that.items.fetch({
                     success:function(){
                     },data:{}
