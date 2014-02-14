@@ -9,7 +9,7 @@ module.exports =
 				  }
 	,"token"	: [
 					{"name": "general"
-					,"val": "123456"}
+					,"val": "abcdefg"}
 				]
 	,"views" 	: "client/views"
 	,"favicon"	: "client/org/img/favicon.ico"
