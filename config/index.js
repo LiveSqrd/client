@@ -15,9 +15,6 @@ module.exports =
 	,"favicon"	: "client/org/img/favicon.ico"
 	,"git"		: {
 					 "autopull"	:true
-					,"devs"		:["lsqio"]
-					,"branch"	:"master"
-					,"repo"		:"git@github.com:LiveSqrd/client.git"
 				}
 }
 
@@ -27,4 +24,3 @@ module.exports =
 //token is used for api calls and sdk, the val is key
 //favicon location 
 //git autopull is for evertime you push the server pull the changes
-//git devs is an array gitusernames that the autopull will work for
