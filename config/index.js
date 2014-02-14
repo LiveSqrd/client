@@ -14,7 +14,7 @@ module.exports =
 	,"views" 	: "client/views"
 	,"favicon"	: "client/org/img/favicon.ico"
 	,"git"		: {
-					 "autopull"	:false
+					 "autopull"	:true
 					,"devs"		:["lsqio"]
 					,"branch"	:"master"
 					,"repo"		:"git@github.com:LiveSqrd/client.git"
