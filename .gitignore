@@ -8,7 +8,8 @@ lib-cov
 pids
 logs
 results
-
+tmp
+upload
 npm-debug.log
 node_modules
 
