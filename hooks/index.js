@@ -7,6 +7,7 @@
 
 	exports.run =function(options){
 		db = options.db;
+		events();
 	}
 	exports.routes = function(app){
 	
@@ -24,6 +25,9 @@
 			res.send(_.has(req.session,"p"))	
 		})
 	return app;
+	}
+	var events = function(){
+
 	}
 
 return exports;
