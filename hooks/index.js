@@ -5,10 +5,11 @@
 		, hook 		= {}
 		, db;
 
-	exports.run =function(options){
+	exports.run = function(options){
 		db = options.db;
 		events();
 	}
+	exports.indexRoutes = [];
 	exports.routes = function(app){
 	
 		app.get("/hello",function(req,res){
