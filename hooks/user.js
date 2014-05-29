@@ -8,6 +8,10 @@
 	exports.run = function(options){
 		db = options.db;
 	}
+	exports.newUser = function(client,profile){
+
+		
+	}
 	exports.login = function(session,callback){
 		var json = {};
 		var options = {}
