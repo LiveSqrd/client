@@ -9,7 +9,6 @@
 		db = options.db;
 	}
 	exports.newUser = function(client,profile){
-		console.log("newuser",client.id,profile.id)
 
 	}
 	exports.login = function(session,callback){
