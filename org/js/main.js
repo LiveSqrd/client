@@ -40,7 +40,6 @@
 
 
 require(['require','socket', 'jquery', 'underscore', 'backbone', 'i/client/c', 'i/instance/c', 'i/profile/c', 'bsend', 'modernizr'], function(require,io, $, _, backbone, Clients, Instances, Profiles, Bsend) {
-		var ready;
 		 var me, so, touch;
 			so = io.connect();
 			touch = Modernizr.touch ? true : false;
@@ -50,16 +49,16 @@ require(['require','socket', 'jquery', 'underscore', 'backbone', 'i/client/c', '
 				touch: touch,
 				timezone:-(new Date()).getTimezoneOffset()/120
 			};
-			so.emit('connect', Bsend.je(me), function(err, data) {
-				if (err) 
-					return console.log('Unable to connect.');
-				
-				return ready(Bsend.jd(data), so);
-			});
-
-		return ready = function(data, so) {
-			window.___ = data.i;
-			window.__l = data.loggedIn.loggedIn;
+			ready({}, so);
+			so.on("connect",function(){
+				so.emit('start', Bsend.je(me), function(err, data) {
+					if (err) 
+						return console.log('Unable to connect.');
+					
+					return 
+				});
+			})
+		function ready(data, so) {
 			var checkVisablity, clients, instances, profiles;
 			checkVisablity = true;
 			if (_.isString(document.webkitVisibilityState)) {
@@ -75,10 +74,31 @@ require(['require','socket', 'jquery', 'underscore', 'backbone', 'i/client/c', '
 			
 			function getRouter(obj){
 				require(['router'], function(Router) {
-						Router.initialize(obj);
+					Router.initialize(obj);
 				});
 			}
-			return instances.fetch({
+
+			
+		
+			instances.add(_me.result.i)
+			clients.add(_me.result.c)
+			if(_me.result.p)
+				profiles.add(_me.result.p);
+			delete _me;
+			getRouter({
+				___: {
+					 so: so
+					,u: _me.currUser.auth ? _me.currUser.auth : {loggedIn:false}
+					,conf: _me.cliInfo.conf
+					,c: clients.first()
+					,i: instances.first()
+					,p: profiles.length ? profiles.first() : null
+				}
+			}) 
+
+			
+			//setTimeout(run,500);
+			function run(){instances.fetch({
 					success: function() {
 				return clients.fetch({
 					success: function() {
@@ -110,8 +130,9 @@ require(['require','socket', 'jquery', 'underscore', 'backbone', 'i/client/c', '
 									,p: null
 								}})
 					},data: {'_id': instances.first().get('client')}});
-			 },data: {'_id': data.i}});
-		};
+			 },error:function(v1,v2,v3){console.log("instance",v1,v2,v3)},data: {'_id': data.i}});
+		}
+	};
 	});
 
 }).call(this);
