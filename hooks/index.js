@@ -1,5 +1,3 @@
-
-
 var  http 		= require('http')
 	, _ 	 	= require('underscore')
 	, hook 		= {}
